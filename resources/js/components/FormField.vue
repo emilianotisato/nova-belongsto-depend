@@ -4,15 +4,15 @@
             <multiselect
                 v-model="value"
                 :options="options"
-                :placeholder="this.field.indexName + ' ' + __('Seleccionar')"
-                :selectLabel="__('Pulse enter para seleccionar')"
-                :selectedLabel="__('Seleccionado')"
-                :deselectLabel="__('Pulse enter para remover')"
+                :placeholder="this.field.indexName + ' ' + __('Select')"
+                :selectLabel="__('Press enter to select')"
+                :selectedLabel="__('Selected')"
+                :deselectLabel="__('Press enter to remove')"
                 :custom-label="customLabel"
                 @input="onChange"
             >
                 <span slot="noResult">
-                    {{ __('Oops! No encontramos items.') }}
+                    {{ __('Oops! No elements found.') }}
                 </span>
             </multiselect>
             <p v-if="hasError" class="my-2 text-danger">
