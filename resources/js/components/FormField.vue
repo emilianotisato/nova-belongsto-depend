@@ -4,14 +4,15 @@
             <multiselect
                 v-model="value"
                 :options="options"
-                :placeholder="this.field.indexName + ' ' +__('Select')"
-                :selectLabel="__('Press enter to select')"
-                :selectedLabel="__('Selected')"
-                :deselectLabel="__('Press enter to remove')"
+                :placeholder="this.field.indexName + ' ' + __('Seleccionar')"
+                :selectLabel="__('Pulse enter para seleccionar')"
+                :selectedLabel="__('Seleccionado')"
+                :deselectLabel="__('Pulse enter para remover')"
                 :custom-label="customLabel"
-                @input="onChange">
+                @input="onChange"
+            >
                 <span slot="noResult">
-                    {{ __('Oops! No elements found. Consider changing the search query.')}}
+                    {{ __('Oops! No encontramos items.') }}
                 </span>
             </multiselect>
             <p v-if="hasError" class="my-2 text-danger">
@@ -22,43 +23,54 @@
 </template>
 
 <script>
-import { FormField, HandlesValidationErrors } from "laravel-nova";
-import Multiselect from "vue-multiselect";
+import { FormField, HandlesValidationErrors } from 'laravel-nova';
+import Multiselect from 'vue-multiselect';
 
 export default {
     components: { Multiselect },
     mixins: [FormField, HandlesValidationErrors],
 
-    props: ["resourceName", "resourceId", "field"],
+    props: ['resourceName', 'resourceId', 'field'],
 
     data() {
         return {
-            options: []
+            options: [],
+            calledFromClass: null,
         };
     },
     created() {
+        if (this.field.calledFromClass) {
+            this.calledFromClass = this.field.calledFromClass;
+        } else {
+            this.calledFromClass = this.field.resourceParentClass;
+        }
         if (this.field.dependsOn) {
-            Nova.$on("nova-belongsto-depend-" + this.field.dependsOn, async dependsOnValue => {
-                this.value = "";
+            Nova.$on('nova-belongsto-depends-' + this.field.dependsOn, async dependsOnValue => {
+                this.value = '';
 
-                Nova.$emit("nova-belongsto-depend-" + this.field.attribute.toLowerCase(), {
+                Nova.$emit('nova-belongsto-depends-' + this.field.attribute.toLowerCase(), {
                     value: this.value,
-                    field: this.field
+                    field: this.field,
                 });
 
                 if (dependsOnValue && dependsOnValue.value) {
-                    this.options = (await Nova.request().post("/nova-vendor/nova-belongsto-depend", {
-                        resourceClass: this.field.resourceParentClass,
-                        modelClass: dependsOnValue.field.modelClass,
-                        attribute: this.field.attribute,
-                        dependKey: dependsOnValue.value[dependsOnValue.field.modelPrimaryKey]
-                    })).data;
+                    this.options = (await Nova.request().post(
+                        '/nova-vendor/nova-belongsto-depends',
+                        {
+                            resourceClass: this.calledFromClass,
+                            modelClass: dependsOnValue.field.modelClass,
+                            attribute: this.field.attribute,
+                            dependKey: dependsOnValue.value[dependsOnValue.field.modelPrimaryKey],
+                        }
+                    )).data;
 
                     if (this.field.valueKey) {
-                        this.value = this.options.find(item => item[this.field.modelPrimaryKey] == this.field.valueKey);
-                        Nova.$emit("nova-belongsto-depend-" + this.field.attribute.toLowerCase(), {
+                        this.value = this.options.find(
+                            item => item[this.field.modelPrimaryKey] == this.field.valueKey
+                        );
+                        Nova.$emit('nova-belongsto-depends-' + this.field.attribute.toLowerCase(), {
                             value: this.value,
-                            field: this.field
+                            field: this.field,
                         });
                     }
                 }
@@ -76,11 +88,13 @@ export default {
         setInitialValue() {
             this.options = this.field.options;
             if (this.field.value) {
-                this.value = this.options.find(item => item[this.field.modelPrimaryKey] == this.field.valueKey);
+                this.value = this.options.find(
+                    item => item[this.field.modelPrimaryKey] == this.field.valueKey
+                );
                 if (this.value) {
-                    Nova.$emit("nova-belongsto-depend-" + this.field.attribute.toLowerCase(), {
+                    Nova.$emit('nova-belongsto-depends-' + this.field.attribute.toLowerCase(), {
                         value: this.value,
-                        field: this.field
+                        field: this.field,
                     });
                 }
             }
@@ -91,7 +105,7 @@ export default {
          */
         fill(formData) {
             if (this.value) {
-                formData.append(this.field.attribute, this.value[this.field.modelPrimaryKey] || "");
+                formData.append(this.field.attribute, this.value[this.field.modelPrimaryKey] || '');
             }
         },
 
@@ -103,12 +117,12 @@ export default {
         },
 
         async onChange(value) {
-            Nova.$emit("nova-belongsto-depend-" + this.field.attribute.toLowerCase(), {
+            Nova.$emit('nova-belongsto-depends-' + this.field.attribute.toLowerCase(), {
                 value,
-                field: this.field
+                field: this.field,
             });
-        }
-    }
+        },
+    },
 };
 </script>
 

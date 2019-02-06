@@ -1,16 +1,13 @@
 # BelongsTo Field with Dependency
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/orlyapps/nova-belongsto-depend.svg?style=flat-square)](https://packagist.org/packages/Orlyapps/nova-belongsto-depend)
-[![Total Downloads](https://img.shields.io/packagist/dt/orlyapps/nova-belongsto-depend.svg?style=flat-square)](https://packagist.org/packages/Orlyapps/nova-belongsto-depend)
-
-![Sample](https://raw.githubusercontent.com/orlyapps/nova-belongsto-depend/master/docs/sample.gif)
+This package is based on the original [Orlyapps](https://github.com/orlyapps) package, which we do not know if is still under maintenance.
 
 ## Installation
 
 You can install the package in to a Laravel app that uses [Nova](https://nova.laravel.com) via composer:
 
 ```bash
-composer require orlyapps/nova-belongsto-depend
+composer require emilianotisato/belongsto-depends
 ```
 
 Use this field in your Nova Resource
@@ -42,8 +39,6 @@ public function fields(Request $request)
 ```
 
 ## Sample
-
-[Demo Project](https://github.com/orlyapps/laravel-nova-demo)
 
 -   Warehouse hasMany Articles
 -   Articles belongsToMany Suppliers
@@ -82,13 +77,10 @@ public function fields(Request $request)
 }
 ```
 
-### Security
-
-If you discover any security related issues, please email info@orlyapps.de instead of using the issue tracker.
-
 ## Credits
 
--   [Orlyapps](https://github.com/orlyapps)
+-   Creator: [Orlyapps](https://github.com/orlyapps)
+-   Mantainers: [Emiliano Tisato](https://github.com/emilianotisato)
 
 ## License
 

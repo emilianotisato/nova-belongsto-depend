@@ -1,13 +1,10 @@
 <?php
 
-namespace Orlyapps\NovaBelongsToDepend\Http\Controllers;
+namespace EmilianoTisato\NovaBelongsToDepends\Http\Controllers;
 
-use Illuminate\Support\HtmlString;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Orlyapps\NovaBelongsToDepend\NovaBelongsToDepend;
-use Laravel\Nova\Panel;
+use EmilianoTisato\NovaBelongsToDepends\NovaBelongsToDepends;
 
 class FieldController extends Controller
 {
@@ -19,16 +16,16 @@ class FieldController extends Controller
 
         $resource = new $request->resourceClass($request->resourceClass::newModel());
 
-        // Create Nested Array Fields from Panels, Flatten and find
+        // Create Nested Array Fields from Panels and Tabs, Flatten and find
         $fields = collect($resource->fields($request))->map(function ($field) {
-            if ($field instanceof Panel || \get_class($field) === 'Arsenaltech\NovaTab\NovaTab') {
+            if ($field instanceof \Laravel\Nova\Panel || \get_class($field) === 'Arsenaltech\NovaTab\NovaTab') {
                 return collect($field->data);
             }
             return $field;
         })->flatten();
 
         $field = $fields->first(function ($value, $key) use ($request) {
-            return ($value instanceof NovaBelongsToDepend && $value->attribute == $request->attribute);
+            return ($value instanceof NovaBelongsToDepends && $value->attribute == $request->attribute);
         });
 
         if (is_null($field)) {

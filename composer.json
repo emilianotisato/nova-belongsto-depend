@@ -1,9 +1,11 @@
 {
-    "name": "orlyapps/nova-belongsto-depend",
-    "description": "A Laravel Nova field.",
+    "name": "emilianotisato/belongsto-depends",
+    "description": "A Laravel Nova field with dependencie on another BelongsTo relationship.",
     "keywords": [
         "laravel",
-        "nova"
+        "nova",
+        "belongsTo relationship",
+        "fields depend"
     ],
     "license": "MIT",
     "require": {
@@ -11,13 +13,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Orlyapps\\NovaBelongsToDepend\\": "src/"
+            "EmilianoTisato\\NovaBelongsToDepends\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Orlyapps\\NovaBelongsToDepend\\FieldServiceProvider"
+                "EmilianoTisato\\NovaBelongsToDepends\\FieldServiceProvider"
             ]
         }
     },

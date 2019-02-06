@@ -1,6 +1,6 @@
 <?php
 
-namespace Orlyapps\NovaBelongsToDepend;
+namespace EmilianoTisato\NovaBelongsToDepends;
 
 use Laravel\Nova\Nova;
 use Laravel\Nova\Events\ServingNova;
@@ -17,8 +17,8 @@ class FieldServiceProvider extends ServiceProvider
     public function boot()
     {
         Nova::serving(function (ServingNova $event) {
-            Nova::script('nova-belongsto-depend', __DIR__ . '/../dist/js/field.js');
-            Nova::style('nova-belongsto-depend', __DIR__ . '/../dist/css/field.css');
+            Nova::script('nova-belongsto-depends', __DIR__ . '/../dist/js/field.js');
+            Nova::style('nova-belongsto-depends', __DIR__ . '/../dist/css/field.css');
         });
 
         $this->app->booted(function () {
@@ -48,7 +48,7 @@ class FieldServiceProvider extends ServiceProvider
         }
 
         Route::middleware(['nova'])
-                ->prefix('nova-vendor/nova-belongsto-depend')
+                ->prefix('nova-vendor/nova-belongsto-depends')
                 ->group(__DIR__ . '/../routes/api.php');
     }
 }
