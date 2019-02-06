@@ -76,6 +76,22 @@ public function fields(Request $request)
     ];
 }
 ```
+## Use multiple instances
+
+Some times you need to use multiple instances o mabye you have a second resource for the same eloquent model (example: App\Nova\User and App\Nova\Provider both represent App\User model). In those cases to avoid conflict you can delcare the specific Nova resources in meta attributes (`->withMeta(['calledFromClass' => 'App\Nova\Provider'])`) like this:
+
+```php
+            NovaBelongsToDepends::make('Client')
+                ->options(\App\Client::all()),
+
+            NovaBelongsToDepends::make('Provider')
+                ->withMeta(['calledFromClass' => 'App\Nova\Provider'])
+                ->optionsResolve(function ($client) {
+                    return $client->providers()->active()->get(['id', 'name']);
+                })->dependsOn('Client')
+                ->rules('required'),
+
+```
 
 ## Credits
 
