@@ -7,7 +7,7 @@ This package is based on the original [Orlyapps](https://github.com/orlyapps) pa
 You can install the package in to a Laravel app that uses [Nova](https://nova.laravel.com) via composer:
 
 ```bash
-composer require emilianotisato/belongsto-depends
+composer require emilianotisato/nova-belongsto-depends
 ```
 
 Use this field in your Nova Resource

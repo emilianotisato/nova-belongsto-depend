@@ -1,5 +1,5 @@
 {
-    "name": "emilianotisato/belongsto-depends",
+    "name": "emilianotisato/nova-belongsto-depends",
     "description": "A Laravel Nova field with dependencie on another BelongsTo relationship.",
     "keywords": [
         "laravel",
