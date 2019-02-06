@@ -13,21 +13,26 @@ composer require emilianotisato/nova-belongsto-depends
 Use this field in your Nova Resource
 
 ```php
+// Add the use statement a the top of your nova resource
+use EmilianoTisato\NovaBelongsToDepends\NovaBelongsToDepends;
+
+// ...
+
 public function fields(Request $request)
 {
     return [
         ID::make()->sortable(),
         Text::make('Name')->rules('required', 'max:255'),
 
-        NovaBelongsToDepend::make('Company')
+        NovaBelongsToDepends::make('Company')
             ->options(\App\Company::all()),
-        NovaBelongsToDepend::make('Department')
+        NovaBelongsToDepends::make('Department')
             ->optionsResolve(function ($company) {
                 // Reduce the amount of unnecessary data sent
                 return $company->departments()->get(['id','name']);
             })
             ->dependsOn('Company'),
-        NovaBelongsToDepend::make('Location')
+        NovaBelongsToDepends::make('Location')
             ->optionsResolve(function ($company) {
                 // Reduce the amount of unnecessary data sent
                 return $company->locations()->get(['id','name']);
@@ -54,16 +59,16 @@ public function fields(Request $request)
         ID::make()->sortable(),
         Text::make('Name')->rules('required', 'max:255'),
 
-        NovaBelongsToDepend::make('Warehouse')
+        NovaBelongsToDepends::make('Warehouse')
         ->options(\App\Warehouse::all())
         ->rules('required'),
-        NovaBelongsToDepend::make('Article')
+        NovaBelongsToDepends::make('Article')
             ->optionsResolve(function ($warehouse) {
                 return $warehouse->articles;
             })
             ->dependsOn('Warehouse')
             ->rules('required'),
-        NovaBelongsToDepend::make('Supplier')
+        NovaBelongsToDepends::make('Supplier')
             ->optionsResolve(function ($article) {
                 return \App\Supplier::whereHas('articles', function ($q) use ($article) {
                     $q->where('article_id', $article->id);
