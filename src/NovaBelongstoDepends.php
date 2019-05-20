@@ -73,10 +73,10 @@ class NovaBelongsToDepends extends BelongsTo
         $this->resourceParentClass = get_class(Nova::newResourceFromModel($resource));
 
         $foreign = $resource->{$this->attribute}();
-        $this->foreignKeyName = $foreign->getForeignKey();
+        $this->foreignKeyName = $this->getRelationForeignKeyName($foreign);
 
         if ($this->dependsOn) {
-            $this->dependKey = $resource->{$this->dependsOn}()->getForeignKey();
+            $this->dependKey = $this->getRelationForeignKeyName($resource->{$this->dependsOn}());
         }
 
         $value = $resource->{$this->attribute}()->withoutGlobalScopes()->first();
